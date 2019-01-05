@@ -1,2 +1,2 @@
 # VIdeoStream
-Python program for streaming and recording usb web cam image (Full HD resolution)
+Python program for streaming and recording Full HD image from USB webcam
