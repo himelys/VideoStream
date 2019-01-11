@@ -1,0 +1,27 @@
+#:kivy 1.0.9
+
+<KivyCamera>:
+    size: 1920, 1080
+
+    GridLayout:
+        cols: 1
+        spacing: 10
+        padding: 10
+
+        Button:
+            text: 'Clear History'
+            size_hint: 1, None
+            height: 10
+            on_press: root.Preview()
+        ToggleButton:
+            id: select
+            text: 'Select'
+            size_hint: 1, None
+            height: 10
+            on_state:
+                root.Record()
+        Button:
+            text: 'Stop Record'
+            size_hint: 1, None
+            height: 10
+            on_press: root.stop_record()
