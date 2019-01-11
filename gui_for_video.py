@@ -1,5 +1,6 @@
 # coding:utf-8
 from kivy.app import App
+from kivy.lang import Builder
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.clock import Clock
@@ -9,7 +10,6 @@ from FramePSec import FramePSec
 from CamVideoStream import CamVideoStream
 
 import cv2
-
 
 class KivyCamera(Image):
     def __init__(self, capture, fps, **kwargs):

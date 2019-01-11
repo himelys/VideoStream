@@ -2,20 +2,19 @@
 
 <KivyCamera>:
     size: 1920, 1080
-
     GridLayout:
         cols: 1
         spacing: 10
         padding: 10
 
         Button:
-            text: 'Clear History'
+            text: 'Preview'
             size_hint: 1, None
             height: 10
             on_press: root.Preview()
         ToggleButton:
             id: select
-            text: 'Select'
+            text: 'Record'
             size_hint: 1, None
             height: 10
             on_state:
