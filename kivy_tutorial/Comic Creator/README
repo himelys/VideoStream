@@ -1,0 +1,13 @@
+Requirements:
+- Kivy 1.9.0
+- Python 2.7+, 3.3+ or 3.4+
+
+The installation instructions are currently available in
+http://kivy.org/docs/installation/installation.html
+
+Instructions
+1. Open a terminal
+2. Go to the directory where you find this file. For example,
+ in Windows: cd "C:/PATH/TO/THIS/DIRECTORY/" or, in Linux:
+ cd "/PATH/TO/THIS/DIRECTORY/"
+3. Execute: python comiccreator.py --size=500x250
