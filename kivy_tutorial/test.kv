@@ -1,0 +1,52 @@
+#:kivy 1.9.1
+
+<MyWidgetClass>:
+    name: "clock"
+    b_font_size: "30 sp"
+    time_prop: time
+    orientation: "vertical"
+    padding: root.width*0.02, root.height*0.02
+    FloatLayout:
+        Label:
+            id: stopwatch
+            text: "00:00.[size=20]00[/size]"
+            size_hint: 1.9, 6
+            font_size: "30 sp"
+            markup: True
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: 0,0,255,0.9
+            Rectangle:
+                pos: 225, 250
+                size: 350, 100
+        Label:
+            id:time
+            text: "[b]00[/b]:00.[size=40]00[/size]"
+            font_size: str(font_slider.value) + "sp"
+            markup: True
+    Slider:
+        id: font_slider
+        orientation: "horizontal"
+        min: 1
+        max: 100
+        value: 50
+        size_hint: 1, None
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint: 1, None
+        height: start_stop.height
+        Button:
+            id: start_stop
+            text: "Start"
+            font_size: root.b_font_size
+            background_color: 255,0,0,0.9
+            size_hint: 1, None
+            on_press: app.start_stop()
+        Button:
+            id: reset
+            text: "Reset"
+            font_size: root.b_font_size
+            background_color: 0,1,255,0.7
+            size_hint: 1, None
+            on_press: app.reset()
