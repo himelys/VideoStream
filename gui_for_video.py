@@ -7,6 +7,7 @@ from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
 
+import datetime
 from FramePSec import FramePSec
 from CamVideoStream import CamVideoStream
 
@@ -17,9 +18,7 @@ class KivyCamera(Image):
         super(KivyCamera, self).__init__(**kwargs)
         self.capture = capture
         self.fps = fps
-        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-        out = cv2.VideoWriter('output2.avi',fourcc,30,(1920,1080))
-        self.out = out
+
         # Clock.schedule_interval(self.update, 1.0 / fps)
 
     def Preview(self):
@@ -41,23 +40,28 @@ class KivyCamera(Image):
 
     def Record(self):
         print('record start')
+        cur_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        fname = './Recorded_Video/output_'+ cur_date + '.avi'
+        print cur_date
+        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        out = cv2.VideoWriter(fname,fourcc,30,(1920,1080))
+        self.out = out
         # self.out.write(self.frame)
         Clock.schedule_interval(self.rec_update, 1.0 / self.fps)
 
     def rec_update(self, dt):
         self.out.write(self.frame)
+
     def stop_record(self):
         print('record stop')
         self.out.release()
-
-class start_record(Widget):
-    pass
 
 
 class CamApp(App):
     def build(self):
         self.capture = CamVideoStream(src=0).start()#cv2.VideoCapture(0)
         self.my_camera = KivyCamera(capture=self.capture, fps=30)
+
         # vs = CamVideoStream(src=0).start()
         # fps = FramePSec().start()
         return self.my_camera
