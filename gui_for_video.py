@@ -5,6 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
+from kivy.properties import ObjectProperty, ListProperty, StringProperty
 
 from FramePSec import FramePSec
 from CamVideoStream import CamVideoStream
@@ -19,9 +20,10 @@ class KivyCamera(Image):
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         out = cv2.VideoWriter('output2.avi',fourcc,30,(1920,1080))
         self.out = out
-        #Clock.schedule_interval(self.update, 1.0 / fps)
+        # Clock.schedule_interval(self.update, 1.0 / fps)
 
     def Preview(self):
+        print('button pressed')
         Clock.schedule_interval(self.update, 1.0 / self.fps)
 
     def update(self, dt):
@@ -38,12 +40,15 @@ class KivyCamera(Image):
             self.texture = image_texture
 
     def Record(self):
+        print('record start')
+        # self.out.write(self.frame)
         Clock.schedule_interval(self.rec_update, 1.0 / self.fps)
 
     def rec_update(self, dt):
-            self.out.write(self.frame)
+        self.out.write(self.frame)
     def stop_record(self):
-            self.out.release()
+        print('record stop')
+        self.out.release()
 
 class start_record(Widget):
     pass

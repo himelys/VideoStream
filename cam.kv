@@ -1,26 +1,49 @@
 #:kivy 1.0.9
 
 <KivyCamera>:
-    size: 1920, 1080
-    GridLayout:
-        cols: 1
-        spacing: 10
-        padding: 10
+    # name: "clock"
+    # b_font_size: "30 sp"
+    # orientation: "vertical"
+    # padding: root.width*0.02, root.height*0.02
 
-        Button:
-            text: 'Preview'
-            size_hint: 1, None
-            height: 10
-            on_press: root.Preview()
-        ToggleButton:
-            id: select
-            text: 'Record'
-            size_hint: 1, None
-            height: 10
-            on_state:
-                root.Record()
-        Button:
-            text: 'Stop Record'
-            size_hint: 1, None
-            height: 10
-            on_press: root.stop_record()
+    canvas:
+        Color:
+            rgb: (1, 1, 1)
+        Rectangle:
+            pos: self.pos
+            texture: self.texture
+            size: self.width + 0, self.height + 0
+            # pos: self.x - 10, self.y - 10
+
+    BoxLayout:
+        orientation: "vertical"
+        # size_hint: 1, None
+        # height: 20
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            # padding: 20
+            Label:
+                text: "button set"
+                test_size: self.size
+                valign: 'middle'
+                halign: 'center'
+            Button:
+                text: 'Preview'
+                size_hint: None, 0.5
+                width: 200
+                on_press: root.Preview()
+            ToggleButton:
+                id: select
+                text: 'Record'
+                background_color: 255,0,0,0.9
+                size_hint: None, 0.5
+                width: 200
+                on_state:
+                    root.Record()
+            Button:
+                text: 'Stop Record'
+                background_color: 0,1,255,0.7
+                size_hint: None, 0.5
+                width: 200
+                on_press: root.stop_record()
