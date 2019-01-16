@@ -27,10 +27,10 @@
                 size_hint: None, 0.2
                 width: 200
                 on_press: root.Preview()
-            Button:
-                # id: select
+            ToggleButton:
+                id: toggle1
                 text: 'Record'
-                background_color: 255,0,0,0.9
+                background_color: (1,0,0,1) if self.state == 'normal' else (0,1,0,1)
                 size_hint: None, 0.2
                 width: 200
                 on_press: root.Record()
@@ -40,3 +40,4 @@
                 size_hint: None, 0.2
                 width: 200
                 on_press: root.stop_record()
+                on_release: toggle1.state = 'normal'
