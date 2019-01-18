@@ -5,7 +5,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
-from kivy.properties import ObjectProperty, ListProperty, StringProperty
+from kivy.properties import NumericProperty,BooleanProperty,ObjectProperty, ListProperty, StringProperty
 
 import datetime
 # from FramePSec import FramePSec
@@ -13,16 +13,21 @@ from CamVideoStream import CamVideoStream
 
 import cv2
 
-# class Cam(Widget):
-#     pass
-
-class KivyCamera(Image):
+class KistScope(Image):
+    # scope_window = ObjectProperty(None)
     def __init__(self, capture, fps, **kwargs):
-        super(KivyCamera, self).__init__(**kwargs)
+        super(KistScope, self).__init__(**kwargs)
         self.capture = capture
         self.fps = fps
         self.cnt = 0
         self.pre_timestamp = datetime.datetime.now()
+
+
+class ScopePreviewRecordLayout(Widget):
+    new_particle = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(ScopePreviewRecordLayout,self).__init__(**kwargs)
 
     def Preview(self):
         print('button pressed')
@@ -75,17 +80,17 @@ class KivyCamera(Image):
         self.txt_out.close()
 
 
-class CamApp(App):
-    def build(self):
-        self.capture = CamVideoStream(src=0).start()
-        self.my_camera = KivyCamera(capture=self.capture, fps=30)
-
-        return self.my_camera
-
     def on_stop(self):
         #without this, app will not exit even if the window is closed
         self.capture.release()
 
 
+class KistScopeApp(App):
+    def build(self):
+        self.capture = CamVideoStream(src=0).start()
+        self.my_camera = KistScope(capture=self.capture, fps=30)
+        # self.scope = KistScope()
+        return self.my_camera
+
 if __name__ == '__main__':
-    CamApp().run()
+    KistScopeApp().run()
