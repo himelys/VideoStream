@@ -1,0 +1,144 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+	transition: FadeTransition()
+	MainScreen:
+	SettingScreen:
+	PostProcessScreen:
+
+<MainScreen>:
+	name: "main"
+    FloatLayout:
+        size: root.size
+        pos: root.pos
+        canvas:
+            Color:
+                rgb: (0, 0, 0)
+            Rectangle:
+                pos: root.pos
+                size: root.size
+	    CameraControl
+
+
+<CameraControl>:
+    BoxLayout:
+        BoxLayout:
+            size_hint: 1, None
+            width: root.size[0]
+            height: root.size[1]/4
+
+            # height: dp(50)
+            # padding: 20
+            Button:
+                text: 'Preview'
+                size_hint: None, 0.2
+                width: root.size[0]/6
+                on_press: root.Preview()
+            ToggleButton:
+                id: toggle1
+                text: 'Record'
+                background_color: (1,0,0,1) if self.state == 'normal' else (0,1,0,1)
+                size_hint: None, 0.2
+                width: root.size[0]/6
+                on_press: root.Record()
+            Button:
+                text: 'Stop Record'
+                # background_color: 0,1,255,0.7
+                size_hint: None, 0.2
+                width: root.size[0]/6
+                on_press: root.stop_record()
+                on_release: toggle1.state = 'normal'
+            Button:
+                text: 'Setting'
+                # background_color: 0,1,255,0.7
+                size_hint: None, 0.2
+                width: root.size[0]/6
+        		on_release: app.root.current = "Setting"
+        	Button:
+                text: 'Post Process'
+                # background_color: 0,1,255,0.7
+                size_hint: None, 0.2
+                width: root.size[0]/6
+        		on_release: app.root.current = "Post Process"
+        	Button:
+                text: 'Quit'
+                # background_color: 0,1,255,0.7
+                size_hint: None, 0.2
+                width: root.size[0]/6
+        		on_release: root.quit()
+
+# <RecFPSPopup>:
+#     fps_value: slider_id.value
+#     size_hint: (.5, .3)
+#     pos_hint: {'center_x': .5, 'center_y': 0.5}
+#     title: "  FPS: " + str(slider_id.value)
+#     Slider:
+#         min: 0
+#         max: 50
+#         value:31
+#         step: 1
+#         id: slider_id
+
+<SettingScreen>:
+    name: "Setting"
+    FloatLayout:
+        size: root.size
+        pos: root.pos
+        canvas:
+            Color:
+                rgb: (0, 0, 0)
+            Rectangle:
+                pos: root.pos
+                size: root.size
+	    RecSetting
+
+<RecSetting>:
+	BoxLayout:
+        BoxLayout:
+            size_hint: 1, None
+            width: root.size[0]
+            height: root.size[1]
+
+            Button:
+                text: 'To Preview'
+                size_hint: None, 0.2
+                width: root.size[0]/5
+    			on_release: app.root.current = "main"
+        	# Button:
+            #     text: 'Next Screen'
+            #     background_color: 0,1,255,0.7
+            #     size_hint: None, 0.2
+            #     width: root.size[0]/5
+        	# 	on_release: app.root.current = "other"
+
+<PostProcessScreen>:
+    name: "Post Process"
+    FloatLayout:
+        size: root.size
+        pos: root.pos
+        canvas:
+            Color:
+                rgb: (0, 0, 0)
+            Rectangle:
+                pos: root.pos
+                size: root.size
+	    PostProcess
+
+<PostProcess>:
+	BoxLayout:
+        BoxLayout:
+            size_hint: 1, None
+            width: root.size[0]
+            height: root.size[1]
+
+            Button:
+                text: 'To Preview'
+                size_hint: None, 0.2
+                width: root.size[0]/5
+    			on_release: app.root.current = "main"
+        	# Button:
+            #     text: 'Next Screen'
+            #     background_color: 0,1,255,0.7
+            #     size_hint: None, 0.2
+            #     width: root.size[0]/5
+        	# 	on_release: app.root.current = "other"
