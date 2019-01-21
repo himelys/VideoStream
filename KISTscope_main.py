@@ -3,6 +3,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.popup import Popup
+from kivy.uix.boxlayout import BoxLayout
 
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
@@ -14,16 +15,11 @@ import datetime
 # from FramePSec import FramePSec
 # from CamVideoStream import CamVideoStream
 from CameraControl import CameraControl
-# import cv2
+from RecSetting import RecSetting
 
-class RecSetting(Widget):
-    def Set_FPS(self, instance, value):
-        print value
 
 class PostProcess(Widget):
     pass
-
-
 class MainScreen(Screen):
     pass
 class SettingScreen(Screen):
@@ -36,6 +32,7 @@ class ScreenManagement(ScreenManager):
 presentation = Builder.load_file("main.kv")
 
 class MainApp(App):
+    Cam_fps = 30
     def build(self):
         return presentation
 

@@ -8,6 +8,7 @@ ScreenManagement:
 
 <MainScreen>:
 	name: "main"
+	col: 2
     FloatLayout:
         size: root.size
         pos: root.pos
@@ -46,7 +47,7 @@ ScreenManagement:
                 # background_color: 0,1,255,0.7
                 size_hint: None, 0.2
                 width: root.size[0]/6
-                on_press: root.stop_record()
+                on_press: root.Stop_record()
                 on_release: toggle1.state = 'normal'
             Button:
                 text: 'Setting'
@@ -65,7 +66,7 @@ ScreenManagement:
                 # background_color: 0,1,255,0.7
                 size_hint: None, 0.2
                 width: root.size[0]/6
-        		on_release: root.quit()
+        		on_release: root.Quit()
 
 # <RecFPSPopup>:
 #     fps_value: slider_id.value
@@ -78,7 +79,7 @@ ScreenManagement:
 #         value:31
 #         step: 1
 #         id: slider_id
-
+		#
 <SettingScreen>:
     name: "Setting"
     FloatLayout:
@@ -93,23 +94,38 @@ ScreenManagement:
 	    RecSetting
 
 <RecSetting>:
-	BoxLayout:
-        BoxLayout:
-            size_hint: 1, None
-            width: root.size[0]
-            height: root.size[1]
-
-            Button:
-                text: 'To Preview'
-                size_hint: None, 0.2
-                width: root.size[0]/5
-    			on_release: app.root.current = "main"
-        	# Button:
-            #     text: 'Next Screen'
-            #     background_color: 0,1,255,0.7
-            #     size_hint: None, 0.2
-            #     width: root.size[0]/5
-        	# 	on_release: app.root.current = "other"
+	# fps: fps_slider.value
+    BoxLayout:
+		orientation: 'horizontal'
+        size_hint: 1, None
+        width: root.size[0]
+        height: root.size[1]
+		Label:
+            color: 1, 1, 1, 1
+            font_size: 20
+            text: 'FPS: ' + str(fps_slider.value)
+            # size: self.texture_size
+		Slider:
+			id: fps_slider
+			min: 1
+			max: 60
+			step: 1
+			value: 30
+			on_value:
+				# root.Set_FPS(self.value)
+				app.Cam_fps = self.value
+				# root.ids.lbl1.text = 'SharedVar is ' + str(app.Cam_fps)
+        Button:
+            text: 'To Preview'
+            size_hint: None, 0.2
+            width: root.size[0]/5
+			on_release: app.root.current = "main"
+    	# Button:
+        #     text: 'Next Screen'
+        #     background_color: 0,1,255,0.7
+        #     size_hint: None, 0.2
+        #     width: root.size[0]/5
+    	# 	on_release: app.root.current = "other"
 
 <PostProcessScreen>:
     name: "Post Process"
