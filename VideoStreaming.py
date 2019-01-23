@@ -5,13 +5,13 @@ from CamVideoStream import CamVideoStream
 import numpy as np
 import argparse
 
-import skimage.io as sio
-from skimage import external as etif
+# import skimage.io as sio
+# from skimage import external as etif
 import cv2
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-n", "--num-frames", type=int, default=50,
+ap.add_argument("-n", "--num-frames", type=int, default=100,
 	help="# of frames to loop over for FPS test")
 ap.add_argument("-d", "--display", type=int, default=-1,
 	help="Whether or not frames should be displayed")
@@ -23,16 +23,18 @@ args = vars(ap.parse_args())
 print("[INFO] sampling THREADED frames from webcam...")
 vs = CamVideoStream(src=0).start()
 fps = FramePSec().start()
-
+grabbed, frame, timestamp, cnt, width, height = vs.read()
+print('width: ' + str(width) + ', height: ' + str(height))
 # loop over some frames...this time using the threaded stream
 fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-out = cv2.VideoWriter('output2.avi',fourcc,30,(1920,1080))
+out = cv2.VideoWriter('output2.avi',fourcc,30,(width,height))#(1920,1080))
 count = -1
 Cap_Time = []
 while fps._numFrames < args["num_frames"]:
 	# grab the frame from the threaded video stream and resize it
 	# to have a maximum width of 400 pixels
-	grabbed, frame, cnt = vs.read()
+	grabbed, frame, timestamp, cnt, width, height = vs.read()
+
 	# print(grabbed)
 	#frame = imutils.resize(frame, width=400)
 	if grabbed and count != cnt:
@@ -61,25 +63,25 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 vs.stop()
 out.release()
 
-# Save as tiff files
-cap = cv2.VideoCapture('output2.avi')
-with etif.tifffile.TiffWriter('temp.tif',imagej=True) as tif:
-	while cap.isOpened():
-		ret, img = cap.read()
-
-		if ret:
-			# Datatype conversion and make it as unit8 type
-			imgdat = np.array(img, dtype=np.uint8)
-
-			# Use only green channel
-			imgdat[:,:,0] = 0
-			imgdat[:,:,2] = 0
-			tif.save(imgdat,compress=9)
-
-			if cv2.waitKey(1) & 0xFF == ord('q'):
-				break
-		else:
-			break
-
-cap.release()
-print("Finish convert as TIFF")
+# # Save as tiff files
+# cap = cv2.VideoCapture('output2.avi')
+# with etif.tifffile.TiffWriter('temp.tif',imagej=True) as tif:
+# 	while cap.isOpened():
+# 		ret, img = cap.read()
+#
+# 		if ret:
+# 			# Datatype conversion and make it as unit8 type
+# 			imgdat = np.array(img, dtype=np.uint8)
+#
+# 			# Use only green channel
+# 			imgdat[:,:,0] = 0
+# 			imgdat[:,:,2] = 0
+# 			tif.save(imgdat,compress=9)
+#
+# 			if cv2.waitKey(1) & 0xFF == ord('q'):
+# 				break
+# 		else:
+# 			break
+#
+# cap.release()
+# print("Finish convert as TIFF")

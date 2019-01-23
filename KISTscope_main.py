@@ -32,7 +32,7 @@ class ScreenManagement(ScreenManager):
 presentation = Builder.load_file("main.kv")
 
 class MainApp(App):
-    Cam_fps = 30
+    # Cam_fps = 30
     def build(self):
         return presentation
 

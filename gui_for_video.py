@@ -29,9 +29,13 @@ class KivyCamera(Image):
         Clock.schedule_interval(self.update, 1.0 / self.fps)
 
     def update(self, dt):
-        ret, frame, timestamp = self.capture.read()
+        # ret, frame, timestamp = self.capture.read()
+        ret, frame, timestamp, count, width, height = self.capture.read()
         self.frame = frame
         self.timestamp = timestamp
+        if self.cnt == 0:
+            self.width = width
+            self.height = height
         # print self.cnt
         if self.cnt>0:
             d_timestamp = timestamp - self.pre_timestamp
@@ -57,7 +61,7 @@ class KivyCamera(Image):
         print cur_date
 
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-        out = cv2.VideoWriter(video_fname,fourcc,30,(1920,1080))
+        out = cv2.VideoWriter(video_fname,fourcc,30,(self.width,self.height))
         self.txt_out = open(video_tname,'w')
         self.out = out
 
