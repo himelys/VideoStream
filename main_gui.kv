@@ -27,7 +27,7 @@ ScreenManagement:
         BoxLayout:
             size_hint: 1, None
             width: root.size[0]
-            height: root.size[1]/10
+            height: root.size[1]/5
 			# pos: root.pos[0]+100, root.pos[1] - root.size[1]
 
             # height: dp(50)
@@ -86,13 +86,29 @@ ScreenManagement:
 				width: root.size[0]
 				Label:
 					# pos: root.size[0]/2, 100
-					text: 'Current FPS: ' + root.current_fps
+					text: 'Target FPS: ' + root.target_fps
 					# 'angle_end = {}'.format(e2.value)
 
 				Label:
 					# pos: root.size[0]/2, 100
 					text: 'Current FPS: ' + root.current_fps
 					# 'angle_end = {}'.format(e2.value)
+
+				Label:
+		            color: 1, 1, 1, 1
+		            font_size: 20
+		            text: 'FPS: ' + str(fps_slider.value)
+		            # size: self.texture_size
+				Slider:
+					id: fps_slider
+					min: 1
+					max: 60
+					step: 1
+					value: 30
+					on_value:
+						# root.Set_FPS(self.value)
+						app.Cam_fps = self.value
+						# root.ids.lbl1.text = 'SharedVar is ' + str(app.Cam_fps)
 
 # <RecFPSPopup>:
 #     fps_value: slider_id.value
@@ -126,21 +142,21 @@ ScreenManagement:
         size_hint: 1, None
         width: root.size[0]
         height: root.size[1]
-		Label:
-            color: 1, 1, 1, 1
-            font_size: 20
-            text: 'FPS: ' + str(fps_slider.value)
-            # size: self.texture_size
-		Slider:
-			id: fps_slider
-			min: 1
-			max: 60
-			step: 1
-			value: 30
-			on_value:
-				# root.Set_FPS(self.value)
-				app.Cam_fps = self.value
-				# root.ids.lbl1.text = 'SharedVar is ' + str(app.Cam_fps)
+		# Label:
+        #     color: 1, 1, 1, 1
+        #     font_size: 20
+        #     text: 'FPS: ' + str(fps_slider.value)
+        #     # size: self.texture_size
+		# Slider:
+		# 	id: fps_slider
+		# 	min: 1
+		# 	max: 60
+		# 	step: 1
+		# 	value: 30
+		# 	on_value:
+		# 		# root.Set_FPS(self.value)
+		# 		app.Cam_fps = self.value
+		# 		# root.ids.lbl1.text = 'SharedVar is ' + str(app.Cam_fps)
         Button:
             text: 'To Preview'
             size_hint: None, 0.2

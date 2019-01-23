@@ -12,6 +12,8 @@ import cv2
 
 class CameraControl(Image):
     current_fps = StringProperty()
+    target_fps = StringProperty()
+
     def __init__(self, **kwargs):
         super(CameraControl, self).__init__(**kwargs)
         self.capture = CamVideoStream(src=0).start()
@@ -27,10 +29,12 @@ class CameraControl(Image):
 
     def Display_RecStatus(self, dt):
         self.current_fps = '%0.1f' % self.est_fps
+        self.target_fps = '%0.1f' % self.fps
 
     def Update_Param(self):
         app = App.get_running_app()
         self.fps = app.Cam_fps
+
         print "FPS is set at " + str(self.fps)
 
     def Preview(self):
@@ -38,7 +42,7 @@ class CameraControl(Image):
         # print self.fps
         Clock.unschedule(self.Preview_update)
         Clock.schedule_interval(self.Preview_update, 1.0 / self.fps)
-        Clock.schedule_interval(self.Display_RecStatus, 1.0)
+        Clock.schedule_interval(self.Display_RecStatus, 0.2)
 
     def Preview_update(self, dt):
         ret, frame, timestamp, count, Vwidth, Vheight = self.capture.read()
