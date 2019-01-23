@@ -7,8 +7,10 @@ from kivy.properties import ObjectProperty, ListProperty, StringProperty, Numeri
 import datetime
 from CamVideoStream import CamVideoStream
 from RecSetting import RecSetting
+from ImgProcess import ImgProcess
 
 import cv2
+
 
 class CameraControl(Image):
     current_fps = StringProperty()
@@ -17,10 +19,14 @@ class CameraControl(Image):
     def __init__(self, **kwargs):
         super(CameraControl, self).__init__(**kwargs)
         self.capture = CamVideoStream(src=0).start()
+        self.imgproc = ImgProcess()
+
         # self.rec_param = RecSetting().start()
 
         # Initialize variables
         self.fps = 30
+        self.Contrast = 0
+        self.Brightness = 0
         self.est_fps = 0
         # self.cnt = 0
         self.pre_cnt = -1
@@ -31,18 +37,29 @@ class CameraControl(Image):
         self.current_fps = '%0.1f' % self.est_fps
         self.target_fps = '%0.1f' % self.fps
 
-    def Update_Param(self):
-        app = App.get_running_app()
-        self.fps = app.Cam_fps
+    def Contrast_value(self, instance, value):
+        self.Contrast = value
 
-        print "FPS is set at " + str(self.fps)
+    def Brightness_value(self, instance, value):
+        self.Brightness = value
+
+    def TargetFPS_Value(self, instance, value):
+        self.fps = value
+
+    def Update_Param(self):
+        pass
+        # app = App.get_running_app()
+        # # self.fps = app.Cam_fps
+        # self.Contrast = app.Contrast
+
+        # print "FPS is set at " + str(self.fps)
 
     def Preview(self):
         # print('button pressed')
         # print self.fps
         Clock.unschedule(self.Preview_update)
         Clock.schedule_interval(self.Preview_update, 1.0 / self.fps)
-        Clock.schedule_interval(self.Display_RecStatus, 0.2)
+        Clock.schedule_interval(self.Display_RecStatus, 0.3)
 
     def Preview_update(self, dt):
         ret, frame, timestamp, count, Vwidth, Vheight = self.capture.read()
@@ -51,30 +68,28 @@ class CameraControl(Image):
             self.Vwidth = Vwidth
             self.Vheight = Vheight
             print '[PREVIEW] width: ' + str(self.Vwidth) + ', height: ' + str(self.Vheight)
-        # print self.cnt
+
         if ret and count != self.pre_cnt:
 
             delta = timestamp - self.pre_timestamp
             delta_ms = int(delta.total_seconds() * 1000)
             self.est_fps = 1.0/delta_ms * 1000
-            self.pre_cnt = count
-            # self.frame = frame
+
             self.pre_timestamp = timestamp
             self.timestamp = timestamp
-            # print 'preview ' + timestamp.strftime("%Y-%m-%d %H:%M:%S:%f")
-            # print est_fps
+            self.pre_cnt = count
 
             if self.rec_flag:
-                # cv2.imshow("Frame", frame)
                 self.video_out.write(frame)
                 timestr = timestamp.strftime("%Y-%m-%d %H:%M:%S:%f") + '\n'
                 self.txt_out.write(timestr)
 
-
             # Display preview iamge from webcam
             # convert it to texture
             # if self.rec_flag is False:
+            frame = self.imgproc.brightness_contrast(frame,self.Brightness,self.Contrast)
             buf1 = cv2.flip(frame, 0)
+
             buf = buf1.tostring()
             image_texture = Texture.create(
                 size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
