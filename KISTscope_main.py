@@ -29,10 +29,9 @@ class PostProcessScreen(Screen):
 class ScreenManagement(ScreenManager):
     pass
 
-presentation = Builder.load_file("main.kv")
+presentation = Builder.load_file("main_gui.kv")
 
 class MainApp(App):
-    # Cam_fps = 30
     def build(self):
         return presentation
 
