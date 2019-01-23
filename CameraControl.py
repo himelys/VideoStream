@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.image import Image
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
+from kivy.properties import ObjectProperty, ListProperty, StringProperty, NumericProperty
 
 import datetime
 from CamVideoStream import CamVideoStream
@@ -10,6 +11,7 @@ from RecSetting import RecSetting
 import cv2
 
 class CameraControl(Image):
+    current_fps = StringProperty()
     def __init__(self, **kwargs):
         super(CameraControl, self).__init__(**kwargs)
         self.capture = CamVideoStream(src=0).start()
@@ -17,10 +19,14 @@ class CameraControl(Image):
 
         # Initialize variables
         self.fps = 30
+        self.est_fps = 0
         # self.cnt = 0
         self.pre_cnt = -1
         self.pre_timestamp = datetime.datetime.now()
         self.rec_flag = False
+
+    def Display_RecStatus(self, dt):
+        self.current_fps = '%0.1f' % self.est_fps
 
     def Update_Param(self):
         app = App.get_running_app()
@@ -32,6 +38,7 @@ class CameraControl(Image):
         # print self.fps
         Clock.unschedule(self.Preview_update)
         Clock.schedule_interval(self.Preview_update, 1.0 / self.fps)
+        Clock.schedule_interval(self.Display_RecStatus, 1.0)
 
     def Preview_update(self, dt):
         ret, frame, timestamp, count, Vwidth, Vheight = self.capture.read()
@@ -45,8 +52,7 @@ class CameraControl(Image):
 
             delta = timestamp - self.pre_timestamp
             delta_ms = int(delta.total_seconds() * 1000)
-            est_fps = 1.0/delta_ms * 1000
-
+            self.est_fps = 1.0/delta_ms * 1000
             self.pre_cnt = count
             # self.frame = frame
             self.pre_timestamp = timestamp

@@ -23,10 +23,12 @@ ScreenManagement:
 
 <CameraControl>:
     BoxLayout:
+		orientation: 'vertical'
         BoxLayout:
             size_hint: 1, None
             width: root.size[0]
-            height: root.size[1]/4
+            height: root.size[1]/10
+			# pos: root.pos[0]+100, root.pos[1] - root.size[1]
 
             # height: dp(50)
             # padding: 20
@@ -34,7 +36,8 @@ ScreenManagement:
                 text: 'Preview'
                 size_hint: None, 0.2
                 width: root.size[0]/7
-                on_press: root.Preview()
+                on_press:
+					root.Preview()
             ToggleButton:
                 id: toggle1
                 text: 'Record'
@@ -73,6 +76,23 @@ ScreenManagement:
                 size_hint: None, 0.2
                 width: root.size[0]/7
         		on_release: root.Quit()
+		BoxLayout:
+            size_hint: 1, None
+            width: root.size[0]
+            height: root.size[1]/10
+			# pos: root.pos[0]+100, root.pos[1]
+			BoxLayout:
+				size_hint: None, 0.2
+				width: root.size[0]
+				Label:
+					# pos: root.size[0]/2, 100
+					text: 'Current FPS: ' + root.current_fps
+					# 'angle_end = {}'.format(e2.value)
+
+				Label:
+					# pos: root.size[0]/2, 100
+					text: 'Current FPS: ' + root.current_fps
+					# 'angle_end = {}'.format(e2.value)
 
 # <RecFPSPopup>:
 #     fps_value: slider_id.value
