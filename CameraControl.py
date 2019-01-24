@@ -8,11 +8,12 @@ import datetime
 from CamVideoStream import CamVideoStream
 from RecSetting import RecSetting
 from ImgProcess import ImgProcess
+from kivy.uix.widget import Widget
 
 import cv2
 
 
-class CameraControl(Image):
+class CameraControl(Image):#(Image):
     current_fps = StringProperty()
     target_fps = StringProperty()
 
@@ -32,6 +33,7 @@ class CameraControl(Image):
         self.pre_cnt = -1
         self.pre_timestamp = datetime.datetime.now()
         self.rec_flag = False
+        self.texture = None
 
     def Display_RecStatus(self, dt):
         self.current_fps = '%0.1f' % self.est_fps
@@ -53,13 +55,15 @@ class CameraControl(Image):
         # self.Contrast = app.Contrast
 
         # print "FPS is set at " + str(self.fps)
+    def StopPreview(self):
+        Clock.unschedule(self.Preview_update)
 
     def Preview(self):
         # print('button pressed')
         # print self.fps
         Clock.unschedule(self.Preview_update)
         Clock.schedule_interval(self.Preview_update, 1.0 / self.fps)
-        Clock.schedule_interval(self.Display_RecStatus, 0.3)
+        Clock.schedule_interval(self.Display_RecStatus, 0.1)
 
     def Preview_update(self, dt):
         ret, frame, timestamp, count, Vwidth, Vheight = self.capture.read()

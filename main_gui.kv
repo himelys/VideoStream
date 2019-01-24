@@ -14,7 +14,7 @@ ScreenManagement:
         pos: root.pos
         canvas:
             Color:
-                rgb: (0, 0, 0)
+                rgb: (0,0,0)
             Rectangle:
                 pos: root.pos
                 size: root.size
@@ -25,14 +25,14 @@ ScreenManagement:
 	orientation: 'vertical'
 	canvas:
 		Color:
-			rgb: (1, 1, 1)
+			rgb: (1,1,1)
 		Rectangle:
 			texture: self.texture
-			size: self.width - 100, self.height - 300
-			pos: self.x + 50, self.y + 250
+			size: self.width, self.height - 300
+			pos: self.x + 0, self.y + 200
 
     BoxLayout:
-		pos: root.pos[0], root.pos[1] + 150
+		pos: root.pos[0], root.pos[1] + 100
 		padding: 10,10,10,0
 		spacing: 10
 		size_hint: 1, 0.5
@@ -41,56 +41,29 @@ ScreenManagement:
 
         Button:
             text: 'Preview'
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
             on_press:
 				root.Preview()
         ToggleButton:
             id: toggle1
             text: 'Record'
             background_color: (1,0,0,1) if self.state == 'normal' else (0,1,0,1)
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
             on_press: root.Record()
         Button:
             text: 'Stop Record'
-            # background_color: 0,1,255,0.7
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
             on_press: root.Stop_record()
             on_release: toggle1.state = 'normal'
         Button:
-            text: 'Apply'
-            # background_color: 0,1,255,0.7
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
+            text: 'Stop Preview'
     		on_release:
-				root.Update_Param()
-				root.slidervalue()
+				root.StopPreview()
         Button:
             text: 'Setting'
-            # background_color: 0,1,255,0.7
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
     		on_release: app.root.current = "Setting"
     	Button:
             text: 'DB'
-            # background_color: 0,1,255,0.7
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
     		on_release: app.root.current = "Post Process"
     	Button:
             text: 'Quit'
-            # background_color: 0,1,255,0.7
-            # size_hint: None, 0.2
-            # width: root.size[0]/7
-			# height: '1dp'
     		on_release: root.Quit()
 
 	BoxLayout:
@@ -100,11 +73,11 @@ ScreenManagement:
 		orientation: 'horizontal'
         width: root.size[0]
 
-		canvas:
-			Color:
-				rgb: (0,0,0)
-            Rectangle:
-				size: root.size[0], root.size[1]*0.1
+		# canvas:
+		# 	Color:
+		# 		rgb: (0,0,0)
+        #     Rectangle:
+		# 		size: root.size[0], root.size[1]*0.1
 
 		BoxLayout:
 			# size_hint: None, 0.2
@@ -165,17 +138,6 @@ ScreenManagement:
 				value: 0
 				on_value:
 					root.Brightness_value(*args)
-# <RecFPSPopup>:
-#     fps_value: slider_id.value
-#     size_hint: (.5, .3)
-#     pos_hint: {'center_x': .5, 'center_y': 0.5}
-#     title: "  FPS: " + str(slider_id.value)
-#     Slider:
-#         min: 0
-#         max: 50
-#         value:31
-#         step: 1
-#         id: slider_id
 
 <SettingScreen>:
     name: "Setting"
@@ -197,33 +159,12 @@ ScreenManagement:
         size_hint: 1, None
         width: root.size[0]
         height: root.size[1]
-		# Label:
-        #     color: 1, 1, 1, 1
-        #     font_size: 20
-        #     text: 'FPS: ' + str(fps_slider.value)
-        #     # size: self.texture_size
-		# Slider:
-		# 	id: fps_slider
-		# 	min: 1
-		# 	max: 60
-		# 	step: 1
-		# 	value: 30
-		# 	on_value:
-		# 		# root.Set_FPS(self.value)
-		# 		app.Cam_fps = self.value
-		# 		# root.ids.lbl1.text = 'SharedVar is ' + str(app.Cam_fps)
         Button:
             text: 'To Preview'
             size_hint: None, 0.2
             width: root.size[0]/5
 			on_release:
 				app.root.current = "main"
-    	# Button:
-        #     text: 'Next Screen'
-        #     background_color: 0,1,255,0.7
-        #     size_hint: None, 0.2
-        #     width: root.size[0]/5
-    	# 	on_release: app.root.current = "other"
 
 <PostProcessScreen>:
     name: "Post Process"
@@ -240,19 +181,20 @@ ScreenManagement:
 
 <PostProcess>:
 	BoxLayout:
-        BoxLayout:
-            size_hint: 1, None
-            width: root.size[0]
-            height: root.size[1]
+        # BoxLayout:
+        #     size_hint: 1, None
+        #     width: root.size[0]
+        #     height: root.size[1]
 
-            Button:
-                text: 'To Preview'
-                size_hint: None, 0.2
-                width: root.size[0]/5
-    			on_release: app.root.current = "main"
-        	# Button:
-            #     text: 'Next Screen'
-            #     background_color: 0,1,255,0.7
-            #     size_hint: None, 0.2
-            #     width: root.size[0]/5
-        	# 	on_release: app.root.current = "other"
+        Button:
+            text: 'To Preview'
+            size_hint: None, 0.2
+            width: root.size[0]/5
+			on_release: app.root.current = "main"
+
+	    Button
+	        text: "open"
+	        # on_release: my_widget.open(filechooser.path, filechooser.selection)
+	    FileChooserListView:
+	        id: filechooser
+	        # on_selection: my_widget.selected(filechooser.selection)

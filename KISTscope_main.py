@@ -12,8 +12,7 @@ from kivy.graphics.texture import Texture
 from kivy.properties import ObjectProperty, ListProperty, StringProperty, NumericProperty
 
 import datetime
-# from FramePSec import FramePSec
-# from CamVideoStream import CamVideoStream
+
 from CameraControl import CameraControl
 from RecSetting import RecSetting
 
